@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
-
 import { NavController } from 'ionic-angular';
-
 import {RedditService} from '../../app/services/reddit.service';
-
 import {DetailsPage} from '../details/details';
 
 @Component({
@@ -13,40 +10,37 @@ import {DetailsPage} from '../details/details';
 export class RedditsPage {
   items: any;
   category: any;
-  limit: any;
+  limit:any;
   constructor(public navCtrl: NavController, private redditService:RedditService) {
     this.getDefaults();
   }
 
   ngOnInit(){
-  	this.getPosts(this.category, this.limit);
+    this.getPosts(this.category, this.limit);
   }
 
-   getDefaults(){
+  getDefaults(){
     if(localStorage.getItem('category') != null){
       this.category = localStorage.getItem('category');
-    }
-    else{
-      this.category = 'science';
+    } else {
+      this.category = 'sports';
     }
 
     if(localStorage.getItem('limit') != null){
       this.limit = localStorage.getItem('limit');
-    }
-    else{
+    } else {
       this.limit = 10;
     }
-    
   }
 
   getPosts(category, limit){
-  	this.redditService.getPosts(category, limit).subscribe(response => {
-  		this.items = response.data.children;
-  	});
+    this.redditService.getPosts(category, limit).subscribe(response => {
+      this.items = response.data.children;
+    });
   }
 
   viewItem(item){
-    this.navCtrl.push(DetailsPage,{
+    this.navCtrl.push(DetailsPage, {
       item:item
     });
   }
@@ -54,4 +48,5 @@ export class RedditsPage {
   changeCategory(){
     this.getPosts(this.category, this.limit);
   }
+
 }
