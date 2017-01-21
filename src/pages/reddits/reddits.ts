@@ -12,12 +12,31 @@ import {DetailsPage} from '../details/details';
 })
 export class RedditsPage {
   items: any;
+  category: any;
+  limit: any;
   constructor(public navCtrl: NavController, private redditService:RedditService) {
-
+    this.getDefaults();
   }
 
   ngOnInit(){
-  	this.getPosts('science', 10);
+  	this.getPosts(this.category, this.limit);
+  }
+
+   getDefaults(){
+    if(localStorage.getItem('category') != null){
+      this.category = localStorage.getItem('category');
+    }
+    else{
+      this.category = 'science';
+    }
+
+    if(localStorage.getItem('limit') != null){
+      this.limit = localStorage.getItem('limit');
+    }
+    else{
+      this.limit = 10;
+    }
+    
   }
 
   getPosts(category, limit){
@@ -29,6 +48,10 @@ export class RedditsPage {
   viewItem(item){
     this.navCtrl.push(DetailsPage,{
       item:item
-    })
+    });
+  }
+
+  changeCategory(){
+    this.getPosts(this.category, this.limit);
   }
 }
